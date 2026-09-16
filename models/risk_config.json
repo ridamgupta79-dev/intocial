@@ -1,0 +1,27 @@
+{
+    "severity_weight": 20,
+    "severity_cap": 40,
+    "urgency_weight": 15,
+    "urgency_cap": 30,
+    "entity_weight": 5,
+    "entity_cap": 15,
+    "informative_bonus_max": 10,
+    "risk_levels": {
+        "LOW": [
+            0,
+            24
+        ],
+        "MEDIUM": [
+            25,
+            49
+        ],
+        "HIGH": [
+            50,
+            74
+        ],
+        "CRITICAL": [
+            75,
+            100
+        ]
+    }
+}

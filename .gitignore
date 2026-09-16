@@ -13,16 +13,48 @@ env/
 
 # Environment variables
 .env
+.env.*
+!.env.example
 
 # VS Code
-.vscode
+.vscode/
 
 # OS files
 .DS_Store
 Thumbs.db
 
-# ML models
-models/*.pkl
-models/*.joblib
-models/*.h5
-models/*.keras
+# Python caches and build artifacts
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# ML model artifacts
+*.pkl
+*.joblib
+*.h5
+*.keras
+*.safetensors
+*.pt
+*.pth
+
+# Node
+node_modules/
+dist/
+build/
+
+# Frontend environment files
+dashboard/.env
+dashboard/.env.*
+
+# Datasets and generated data
+data/raw/
+data/processed/
+data/live/*
+!data/live/.gitkeep
+
+*.bin
+models/distilbert-crisisbench/checkpoint-*/
+
+# Generated model results
+models/*_results.json

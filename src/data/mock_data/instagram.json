@@ -1,0 +1,37 @@
+[
+  {
+    "media_id": "instagram_demo_001",
+    "caption": "Something unusual is happening near the main road.",
+    "author": "demo_instagram_user1",
+    "timestamp": "2026-09-14T14:35:00+05:30",
+    "url": "https://www.instagram.com/p/instagram_demo_001/"
+  },
+  {
+    "media_id": "instagram_demo_002",
+    "caption": "Emergency vehicles have arrived in the area.",
+    "author": "demo_instagram_user2",
+    "timestamp": "2026-09-14T14:25:00+05:30",
+    "url": "https://www.instagram.com/p/instagram_demo_002/"
+  },
+  {
+    "media_id": "instagram_demo_003",
+    "caption": "Beautiful day at the local event!",
+    "author": "demo_instagram_user3",
+    "timestamp": "2026-09-14T14:10:00+05:30",
+    "url": "https://www.instagram.com/p/instagram_demo_003/"
+  },
+  {
+    "media_id": "instagram_demo_004",
+    "caption": "Authorities have restricted access to this location.",
+    "author": "demo_instagram_user4",
+    "timestamp": "2026-09-14T14:00:00+05:30",
+    "url": "https://www.instagram.com/p/instagram_demo_004/"
+  },
+  {
+    "media_id": "instagram_demo_005",
+    "caption": "Sharing some photos from today's gathering.",
+    "author": "demo_instagram_user5",
+    "timestamp": "2026-09-14T13:50:00+05:30",
+    "url": "https://www.instagram.com/p/instagram_demo_005/"
+  }
+]

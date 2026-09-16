@@ -1,0 +1,37 @@
+[
+  {
+    "id": "reddit_demo_001",
+    "text": "Anyone else hearing about suspicious activity around the station?",
+    "author": "demo_reddit_user1",
+    "timestamp": "2026-09-14T14:20:00+05:30",
+    "url": "https://www.reddit.com/r/demo/comments/reddit_demo_001/"
+  },
+  {
+    "id": "reddit_demo_002",
+    "text": "There was a loud explosion reported nearby, does anyone know what happened?",
+    "author": "demo_reddit_user2",
+    "timestamp": "2026-09-14T14:15:00+05:30",
+    "url": "https://www.reddit.com/r/demo/comments/reddit_demo_002/"
+  },
+  {
+    "id": "reddit_demo_003",
+    "text": "Traffic is completely normal today.",
+    "author": "demo_reddit_user3",
+    "timestamp": "2026-09-14T14:05:00+05:30",
+    "url": "https://www.reddit.com/r/demo/comments/reddit_demo_003/"
+  },
+  {
+    "id": "reddit_demo_004",
+    "text": "Emergency services have closed the road near the market.",
+    "author": "demo_reddit_user4",
+    "timestamp": "2026-09-14T13:55:00+05:30",
+    "url": "https://www.reddit.com/r/demo/comments/reddit_demo_004/"
+  },
+  {
+    "id": "reddit_demo_005",
+    "text": "Just sharing an update from today's local event.",
+    "author": "demo_reddit_user5",
+    "timestamp": "2026-09-14T13:40:00+05:30",
+    "url": "https://www.reddit.com/r/demo/comments/reddit_demo_005/"
+  }
+]
