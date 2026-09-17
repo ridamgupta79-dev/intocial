@@ -475,3 +475,29 @@ AI / Machine Learning · Software Development · Data & Intelligence Systems
 INTOCIAL — Intelligence Operations & Social Intelligence Analysis
 
 An AI/ML engineering project combining machine learning, data processing, backend systems, correlation intelligence, and an operational investigation interface.
+
+## Platform Screenshots
+
+### Overview
+
+![INTOCIAL Overview](docs/screenshots/overview.png)
+
+### Investigations
+
+![INTOCIAL Investigations](docs/screenshots/investigations.png)
+
+### Incidents
+
+![INTOCIAL Incidents](docs/screenshots/incidents.png)
+
+### Correlation
+
+![INTOCIAL Correlation](docs/screenshots/correlation.png)
+
+### Analytics
+
+![INTOCIAL Analytics](docs/screenshots/analytic.png)
+
+### Multimodal Analysis
+
+![INTOCIAL Multimodal Analysis](docs/screenshots/multimodal.png)
