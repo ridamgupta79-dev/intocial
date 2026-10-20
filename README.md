@@ -1,10 +1,38 @@
+<div align="center">
+
 # INTOCIAL
 
-## Intelligence Operations & Social Intelligence Analysis
+### Intelligence Operations & Social Intelligence Analysis
 
-AI-powered social intelligence platform for detecting, correlating, and investigating emerging threats across fragmented social signals.
+**From fragmented social signals to evidence-aware investigations.**
 
-INTOCIAL is an end-to-end social intelligence platform that combines multi-source signal ingestion, AI-assisted risk analysis, incident management, cross-signal correlation, multimodal image analysis, analytics, and intelligence reporting into a unified operational dashboard.
+An AI-assisted social intelligence platform that helps analysts discover, examine, correlate, and investigate emerging claims and potential threats through one operational workspace.
+
+[Explore the TinyFish Integration](#-tinyfish-live-web-intelligence) · [Platform Screenshots](#-platform-screenshots) · [Run Locally](#installation)
+
+</div>
+
+---
+
+## Why INTOCIAL?
+
+Online incidents can unfold across multiple platforms, while useful context is scattered across posts, pages, and public statements. INTOCIAL brings signal analysis, incident correlation, risk indicators, and live-web research into a single investigation workflow.
+
+A key part of this workflow is the **TinyFish Search + Fetch integration**: instead of relying only on a static dataset or an analyst manually opening search results, the Investigations workspace can request current web results and retrieve readable page content to support further review. The results are investigative leads—not an automatic verdict—and should be checked against their original sources.
+
+## Contents
+
+- [Platform Overview](#overview)
+- [Key Capabilities](#key-capabilities)
+- [TinyFish Live Web Intelligence](#-tinyfish-live-web-intelligence)
+- [Core Capabilities](#core-capabilities)
+- [Architecture](#architecture)
+- [Technology Stack](#technology-stack)
+- [Installation](#installation)
+- [API Areas](#api-areas)
+- [Platform Screenshots](#-platform-screenshots)
+- [Implementation Status & Limitations](#current-implementation-status)
+- [Responsible Use](#responsible-use)
 
 ## Overview
 
@@ -25,6 +53,108 @@ Modern social platforms generate large volumes of fragmented and rapidly changin
 - Intelligence report generation
 - Authenticated API access
 - Operational investigation dashboard
+- **TinyFish-powered live web research** from the Investigations workspace
+
+## 🔎 TinyFish Live Web Intelligence
+
+TinyFish is a major external API integration in INTOCIAL. It gives the investigation workflow a way to reach beyond the platform's ingested signals and query the **live web** for relevant sources. This is especially useful when a claim is new, context is changing, or an analyst needs material to examine alongside social signals.
+
+### Why this matters
+
+| Without live-web research | With TinyFish in INTOCIAL |
+|---|---|
+| An analyst may need to leave the dashboard and search manually. | The Investigations page includes a web-search workflow inside the product. |
+| A static demo dataset can miss newly published context. | Search can request current web results when the feature is used. |
+| Search-result snippets alone may not provide enough context. | The backend can fetch selected URLs and work with returned page content. |
+| Research steps can be disconnected from the investigation workflow. | Web research is accessible from the same Investigations workspace as the platform's other investigation tools. |
+
+### Where it appears in the project
+
+- **Frontend:** `dashboard/src/pages/Investigations.jsx` — the Investigations page includes the independent web-search interface and renders the returned results.
+- **Frontend API client:** `dashboard/src/services/api.js` — `searchWebWithTinyFish(...)` and `investigateWithTinyFish(...)` call the backend.
+- **Backend route:** `src/api/tinyfish_routes.py` — exposes `POST /api/tinyfish/investigate` and validates the request.
+- **TinyFish service layer:** `src/services/tinyfish_service.py` — sends requests to TinyFish Search and Fetch and assembles the investigation response.
+- **Backend registration:** `src/api/main.py` — registers the TinyFish router with the FastAPI application.
+- **Credential configuration:** `.env` — stores `TINYFISH_API_KEY` locally. The key must never be committed.
+
+### Investigation flow
+
+```text
+Analyst enters a claim or web query
+                |
+                v
+Investigations UI (React)
+                |
+                v
+Frontend API client (Axios)
+                |
+                v
+FastAPI: POST /api/tinyfish/investigate
+                |
+                v
+TinyFish service layer
+       |                 |
+       v                 v
+  TinyFish Search    TinyFish Fetch
+  Discover URLs      Retrieve page content
+       |                 |
+       +--------+--------+
+                |
+                v
+Structured investigation response
+                |
+                v
+Results shown in the Investigations workspace
+                |
+                v
+Analyst reviews sources and verifies context
+```
+
+### TinyFish APIs used
+
+**1. TinyFish Search — source discovery**
+
+The service sends a query to `https://api.search.tinyfish.ai` using the `X-API-Key` header. Search helps discover relevant web pages and returns structured results such as titles, URLs, and snippets.
+
+**2. TinyFish Fetch — page retrieval**
+
+For selected URLs, the service sends a request to `https://api.fetch.tinyfish.ai`. The intended response format is Markdown, which makes page text easier for downstream processing and analyst review than raw page markup.
+
+Official references: [TinyFish Search](https://www.tinyfish.ai/search) · [TinyFish Search & Fetch overview](https://www.tinyfish.ai/free-search-fetch) · [TinyFish Cookbook / REST examples](https://github.com/tinyfish-io/tinyfish-cookbook)
+
+### Backend endpoint
+
+`POST /api/tinyfish/investigate`
+
+Example request:
+
+```json
+{
+  "claim": "Example public claim or event to investigate",
+  "limit": 5
+}
+```
+
+- `claim`: required text to investigate (3–500 characters).
+- `limit`: optional result limit from 1 to 5; defaults to `5`.
+- The backend reads `TINYFISH_API_KEY` from the environment.
+- The route returns a client error for invalid input and a gateway error if the provider investigation fails.
+
+### Configure the API key
+
+Add the key to your **local `.env` file**:
+
+```env
+TINYFISH_API_KEY=your_key_here
+```
+
+Do not paste a real key into this README, `.env.example`, screenshots, issue reports, or Git commits. Keep `.env` ignored by Git. If a key has ever been exposed, revoke it and create a replacement.
+
+### Responsible interpretation and deployment notes
+
+TinyFish supplies web search and page-retrieval capabilities; it does **not**, by itself, prove a claim true or false. Search results can be incomplete, pages can change, and sources can disagree. Analysts should open and evaluate the original sources, compare independent evidence, and treat the returned material as leads for human review.
+
+Before public deployment, protect the investigation endpoint with the application's authentication and appropriate rate limiting, and verify the provider response handling with real test queries. API availability, quotas, network conditions, and source-page behavior can affect results.
 
 ## Core Capabilities
 
@@ -249,8 +379,8 @@ Before running INTOCIAL locally, install:
 
 ### 1. Clone the Repository
 
-git clone https://github.com/ridamgupta79-dev/social-media-analytics.git
-cd social-media-analytics
+git clone https://github.com/ridamgupta79-dev/intocial.git
+cd intocial
 
 ### 2. Create the Python Environment
 
@@ -350,6 +480,7 @@ The backend provides functionality across areas including:
 /correlation
 /reports
 /analytics
+/api/tinyfish/investigate
 /health
 
 Interactive API documentation is available through FastAPI Swagger UI at:
@@ -476,28 +607,59 @@ INTOCIAL — Intelligence Operations & Social Intelligence Analysis
 
 An AI/ML engineering project combining machine learning, data processing, backend systems, correlation intelligence, and an operational investigation interface.
 
-## Platform Screenshots
+## 📸 Platform Screenshots
 
-### Overview
+These screenshots provide a quick tour of the current INTOCIAL interface. They are loaded from `docs/screenshots/` in the repository.
 
-![INTOCIAL Overview](docs/screenshots/overview.png)
+> **For the hackathon demo:** keep the screenshots in the exact paths below and make sure they are committed to GitHub. The Investigations screenshot is especially relevant to the TinyFish workflow.
 
-### Investigations
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <strong>Overview Dashboard</strong><br/>
+      <sub>High-level operational view</sub><br/><br/>
+      <img src="docs/screenshots/overview.png" alt="INTOCIAL overview dashboard" width="100%"/>
+    </td>
+    <td align="center" width="50%">
+      <strong>Investigations &amp; TinyFish Research</strong><br/>
+      <sub>Investigation workspace and web-search entry point</sub><br/><br/>
+      <img src="docs/screenshots/investigations.png" alt="INTOCIAL investigations workspace with TinyFish web research" width="100%"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <strong>Incident Management</strong><br/>
+      <sub>Group and review related signals</sub><br/><br/>
+      <img src="docs/screenshots/incidents.png" alt="INTOCIAL incidents interface" width="100%"/>
+    </td>
+    <td align="center" width="50%">
+      <strong>Cross-Signal Correlation</strong><br/>
+      <sub>Explore relationships between signals</sub><br/><br/>
+      <img src="docs/screenshots/correlation.png" alt="INTOCIAL correlation interface" width="100%"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <strong>Analytics</strong><br/>
+      <sub>Historical trends and risk distribution</sub><br/><br/>
+      <img src="docs/screenshots/analytic.png" alt="INTOCIAL analytics interface" width="100%"/>
+    </td>
+    <td align="center" width="50%">
+      <strong>Multimodal Image Analysis</strong><br/>
+      <sub>Image-focused analytical workflow</sub><br/><br/>
+      <img src="docs/screenshots/multimodal.png" alt="INTOCIAL multimodal image analysis interface" width="100%"/>
+    </td>
+  </tr>
+</table>
 
-![INTOCIAL Investigations](docs/screenshots/investigations.png)
+---
 
-### Incidents
+## Author
 
-![INTOCIAL Incidents](docs/screenshots/incidents.png)
+**Ridam Gupta**
 
-### Correlation
+AI / Machine Learning · Software Development · Data & Intelligence Systems
 
-![INTOCIAL Correlation](docs/screenshots/correlation.png)
+## Project Summary
 
-### Analytics
-
-![INTOCIAL Analytics](docs/screenshots/analytic.png)
-
-### Multimodal Analysis
-
-![INTOCIAL Multimodal Analysis](docs/screenshots/multimodal.png)
+INTOCIAL combines social-signal analysis, correlation intelligence, incident workflows, multimodal image analysis, and TinyFish-powered live-web research in an operational investigation interface. It is a research and prototype platform, with external-source findings intended to support—not replace—human review.
