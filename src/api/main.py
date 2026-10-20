@@ -70,6 +70,10 @@ app = FastAPI(
     version="1.0.0",
 )
 
+from src.api.tinyfish_routes import router as tinyfish_router
+
+app.include_router(tinyfish_router)
+
 app.include_router(auth_router)
 
 

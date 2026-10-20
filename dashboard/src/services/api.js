@@ -372,4 +372,38 @@ export async function getIncidentReport(incidentId) {
   return response.data;
 }
 
+
+
+export async function investigateWithTinyFish(
+  claim,
+  limit = 5
+) {
+  const response = await api.post(
+    "/api/tinyfish/investigate",
+    {
+      claim,
+      limit,
+    }
+  );
+
+  return response.data;
+}
+
+export async function searchWebWithTinyFish(
+  query,
+  limit = 5
+) {
+  const response = await api.post(
+    "/api/tinyfish/investigate",
+    {
+      claim: query,
+      limit,
+    }
+  );
+
+  return response.data;
+}
+
+
+
 export default api;
